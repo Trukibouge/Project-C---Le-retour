@@ -12,6 +12,7 @@
 typedef struct _Mot
 {
 	char word[25];
+	int occurences;
 	struct _Mot *suiv;
 
 }Mot;
