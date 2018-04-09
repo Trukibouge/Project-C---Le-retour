@@ -4,7 +4,7 @@
 //Bibliothèques
 
 #include <stdio.h>
-#include <stdlib.>
+#include <stdlib.h>
 #include <string.h>
 
 //Structures
@@ -23,8 +23,9 @@ typedef struct _Mot
 
 //Prototypes
 
-int is_in(char* mot);
-void table_hachage(Mot** l);
+int is_in(char* mot,Mot** l);
+void table_hachage_dicofr(Mot** l);
+void table_hachage_predictions(Mot** l);
 int hachage(char* m);
 void creation_tete(Mot** l);
 
@@ -37,6 +38,43 @@ return 0;
 }
 
 //Fonctions
+//------------------------------------------------------------
+
+void table_hachage_predictions(Mot** l)
+{
+	FILE* fp;
+	fp = fopen("dico_predictions.txt","r");
+	char mot[25];
+	int indice;
+	Mot* p;
+	
+	while (fscanf(fp,"%s",mot) !=0)
+	{
+		if (is_in(mot,l) == 1)
+		{
+			indice = hachage(mot);
+			p = l[indice];
+
+			while(strcmp(p->word,mot)!=0)
+			{
+				p = p->suiv;
+			}
+			p->occurences++;
+		}
+
+		else
+		{
+			Mot* maillon = malloc(sizeof(Mot));	
+			strcpy(maillon->word,mot);
+			maillon->occurences = 1;		
+			indice = hachage(mot);			
+			maillon->suiv = l[indice];
+			l[indice] = maillon;
+		}
+	}
+	fclose(fp);
+}
+
 //------------------------------------------------------------
 
 int hachage(char* m)
@@ -65,17 +103,18 @@ void creation_tete(Mot** l)
 
 //------------------------------------------------------------
 
-void table_hachage(Mot** l)
+void table_hachage_dicofr(Mot** l)
 {
 	FILE* fp;
 	fp = fopen("dictionnaire.txt","r");
 	char mot[25];
 	int indice;
 	
-	while ((fscanf(fp,"%s",mot) !=0)
+	while (fscanf(fp,"%s",mot) !=0)
 	{
 		Mot* maillon = malloc(sizeof(Mot));
 		strcpy(maillon->word,mot);
+		maillon->occurences = 1;
 		indice = hachage(mot);
 		maillon->suiv = l[indice];
 		l[indice] = maillon;
@@ -91,8 +130,8 @@ int is_in(char* mot,Mot** l)
 	int indice;
 	int test = 0;
 	Mot *p = malloc(sizeof(Mot));
-	p = l[indice];
 	indice = hachage(mot);
+	p = l[indice];
 
 	while (p!=NULL)
 	{
