@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <SDL/SDL.h>
+
 
 //Structures
 
@@ -15,7 +15,6 @@ typedef struct _Mot
 	char word[25];
 	int occurences;
 	struct _Mot *suiv;
-
 }Mot;
 
 //Variables globales
@@ -33,8 +32,14 @@ void ajout_mot(Mot* *l1,Mot* *l2);
 
 //Main
 
-int main(void)
+int main(int argc,char** argv)
 {
+	Mot* dico_fr[TAILLE_MAX];
+	Mot* dico_predic[TAILLE_MAX];
+	creation_tete(dico_fr);
+	creation_tete(dico_predic);
+	table_hachage_dicofr(dico_fr);
+	table_hachage_predictions(dico_predic);
 
 return EXIT_SUCCESS;
 }
@@ -127,14 +132,14 @@ void table_hachage_predictions(Mot** l)
 	fp = fopen("dico_predictions.txt","r");
 	char mot[25];
 	int indice;
-	Mot* p;
 	
-	while (fscanf(fp,"%s",mot) !=0)
+	while (fscanf(fp,"%s",mot) ==1)
 	{
 		indice = hachage(mot);
 
 		if (is_in(mot,l) == 1)
 		{
+			Mot* p = malloc(sizeof(Mot));
 			p = l[indice];
 
 			while(strcmp(p->word,mot)!=0)
@@ -191,7 +196,7 @@ void table_hachage_dicofr(Mot** l)
 	char mot[25];
 	int indice;
 	
-	while (fscanf(fp,"%s",mot) !=0)
+	while (fscanf(fp,"%s",mot)==1)
 	{
 		Mot* maillon = malloc(sizeof(Mot));
 		strcpy(maillon->word,mot);
@@ -222,7 +227,6 @@ int is_in(char* mot,Mot** l)
 		}
 		p = p->suiv;
 	}
-
 return test;
 }
 
