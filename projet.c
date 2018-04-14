@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 //Structures
 
 typedef struct _Mot
@@ -47,6 +46,7 @@ return EXIT_SUCCESS;
 //Fonctions
 //------------------------------------------------------------
 
+/*
 void ajout_mot(Mot* *l1,Mot* *l2)
 {
 	char ajout[30];
@@ -122,7 +122,7 @@ void ajout_mot(Mot* *l1,Mot* *l2)
 		}
 	}
 }
-
+*/
 //------------------------------------------------------------
 
 
