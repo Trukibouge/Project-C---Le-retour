@@ -23,6 +23,7 @@ typedef struct _Mot
 #define TAILLE_MAX 29
 Mot* dico_fr[TAILLE_MAX];
 Mot* dico_predic[TAILLE_MAX];
+int activation = 1;
 
 //Prototypes
 //------------------------------------------------------------
@@ -32,7 +33,7 @@ void Destroy(GtkWidget *pWidget,gpointer pData);
 void on_activate_entry(GtkWidget *Entry,gpointer *data);
 void on_clicked_button_entry(GtkWidget *Button,gpointer data);
 void on_clicked_button_buttons(GtkWidget *Button,gpointer *data);
-void on_clicked_activation(void);
+void on_clicked_activation(GtkWidget *Button,gpointer data);
 void on_clicked_acquisition(GtkWidget *Button, gpointer data);
 void on_change_prediction(void);
 
@@ -186,9 +187,17 @@ void on_clicked_button_buttons(GtkWidget *Button,gpointer *data)
 
 //------------------------------------------------------------
 
-void on_clicked_activation(void)
+void on_clicked_activation(GtkWidget *Button,gpointer data)
 {
+	if (activation==1)
+	{
+		activation = 0;
+	}
 
+	else
+	{
+		activation = 1;
+	}
 }
 
 //------------------------------------------------------------
@@ -232,7 +241,6 @@ void sauvegarde(Mot** l)
 
 }
 
-//------------------------------------------------------------
 
 void ajout_mot(Mot** l1,Mot** l2,const gchar* t)
 {
