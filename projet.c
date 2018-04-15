@@ -232,6 +232,7 @@ void sauvegarde(Mot** l)
 
 }
 
+//------------------------------------------------------------
 
 void ajout_mot(Mot** l1,Mot** l2,const gchar* t)
 {
